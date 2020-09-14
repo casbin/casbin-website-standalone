@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
+	"github.com/casbin/casbin-website-standalone/routers"
 
 	_ "github.com/casbin/casbin-website-standalone/routers"
 )
@@ -15,6 +16,12 @@ func main() {
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
+
+	//beego.DelStaticPath("/static")
+	beego.SetStaticPath("/static", "web/build/static")
+	// https://studygolang.com/articles/2303
+	beego.InsertFilter("/", beego.BeforeRouter, routers.TransparentStatic) // must has this for default page
+	beego.InsertFilter("/*", beego.BeforeRouter, routers.TransparentStatic)
 
 	beego.BConfig.WebConfig.Session.SessionProvider="file"
 	beego.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"
