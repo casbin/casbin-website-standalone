@@ -1,0 +1,3 @@
+[submodule "casbin-website"]
+	path = casbin-website
+	url = ../casbin-website
