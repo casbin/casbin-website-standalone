@@ -14,16 +14,24 @@ func TransparentStatic(ctx *context.Context) {
 		return
 	}
 
-	path := "web/build"
+	path := "../casbin.github.io"
 	if urlPath == "/" {
-		path += "/index.html"
+		path += "/zh-CN/index.html"
 	} else {
 		path += urlPath
+	}
+
+	path = strings.ReplaceAll(path, "/en/", "/zh-CN/")
+	//println(path)
+
+	tokens := strings.Split(path, "/")
+	if len(tokens) > 0 && !strings.Contains(tokens[len(tokens)-1], ".") {
+		path += ".html"
 	}
 
 	if util.FileExist(path) {
 		http.ServeFile(ctx.ResponseWriter, ctx.Request, path)
 	} else {
-		http.ServeFile(ctx.ResponseWriter, ctx.Request, "web/build/index.html")
+		http.ServeFile(ctx.ResponseWriter, ctx.Request, "../casbin.github.io/zh-CN/index.html")
 	}
 }
