@@ -20,22 +20,20 @@ func TransparentStatic(ctx *context.Context) {
 
 	path := fmt.Sprintf("../%s", repo)
 	if urlPath == "/" {
-		path += "/zh-CN/index.html"
+		http.Redirect(ctx.ResponseWriter, ctx.Request, "/zh", 301)
+		return
 	} else {
 		path += urlPath
 	}
 
-	path = strings.ReplaceAll(path, "/en/", "/zh-CN/")
-	//println(path)
-
 	tokens := strings.Split(path, "/")
 	if len(tokens) > 0 && !strings.Contains(tokens[len(tokens)-1], ".") {
-		path += ".html"
+		path += "/index.html"
 	}
 
 	if util.FileExist(path) {
 		http.ServeFile(ctx.ResponseWriter, ctx.Request, path)
 	} else {
-		http.ServeFile(ctx.ResponseWriter, ctx.Request, fmt.Sprintf("../%s/zh-CN/index.html", repo))
+		http.ServeFile(ctx.ResponseWriter, ctx.Request, fmt.Sprintf("../%s/zh/index.html", repo))
 	}
 }
