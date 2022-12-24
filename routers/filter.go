@@ -34,8 +34,11 @@ func TransparentStatic(ctx *context.Context) {
 	repo := beego.AppConfig.String("repo")
 	path := fmt.Sprintf("../%s", repo)
 	if urlPath == "/" {
-		http.Redirect(ctx.ResponseWriter, ctx.Request, "/zh", 301)
-		return
+		if getSessionUser(ctx) == "" {
+			setSessionUser(ctx, "redirected")
+			http.Redirect(ctx.ResponseWriter, ctx.Request, "/zh", 301)
+			return
+		}
 	}
 
 	path += urlPath
