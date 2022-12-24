@@ -20,8 +20,7 @@ func main() {
 	//beego.DelStaticPath("/static")
 	//beego.SetStaticPath("/static", "web/build/static")
 	// https://studygolang.com/articles/2303
-	beego.InsertFilter("/", beego.BeforeRouter, routers.TransparentStatic) // must has this for default page
-	beego.InsertFilter("/*", beego.BeforeRouter, routers.TransparentStatic)
+	beego.InsertFilter("*", beego.BeforeRouter, routers.TransparentStatic)
 
 	beego.BConfig.WebConfig.Session.SessionProvider = "file"
 	beego.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"
